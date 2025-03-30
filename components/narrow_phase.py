@@ -45,7 +45,7 @@ class ContactSolver:
         self.ResolvePenetration(dt)
         # self.ResolveFriction(dt) # broken, only works with fixed orientated shapes
 
-    def ResolveVelocity(self, dt: float):        
+    def ResolveVelocity(self, dt: float):
         iMass1 = self.object1.mass_data.iMass
         iMass2 = self.object2.mass_data.iMass
         iInertia1 = self.object1.mass_data.inverse_inertia
