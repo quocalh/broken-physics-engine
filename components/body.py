@@ -281,13 +281,10 @@ class BodyPolygon(Body):
         self.polygon.Translating(self.position)
 
         self.polygon.previous_radian = self.polygon.radian
-        # if self.is
+        
+        # reset it every frame
         self.world_pivot[0] = self.position[0]
         self.world_pivot[1] = self.position[1]
-
-    
-
-
     
     def LocalizePoint(self, value: np.ndarray): 
         value = self.polygon.RotateMatrixMultiplication2D(value - self.position, - self.polygon.radian)

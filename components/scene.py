@@ -40,7 +40,7 @@ class Scene:
         self.dt: float = None
         self.body_list: list[Body] = []
 
-        self.FORCE_REGISTORY: ForceRegistory = force_registory
+        self.FORCE_REGISTRY: ForceRegistory = force_registory
         self.BROAD_PHASE_QUEUE: BroadPhaseQueue = broad_phase_queue
         self.NARROW_PHASE : NarrowPhaseQueue = narrow_phase_queue
         self.CONTACT_SOLVER: ContactSolver = contact_solver
@@ -48,10 +48,10 @@ class Scene:
         self.FORCE_GENERATOR_POOL: list[ForceGenerator] = []
         self.HasSetUp = False
 
-    def InsertForceRegistory(self, force_registory: ForceRegistory):
+    def InsertForceRegistry(self, force_registory: ForceRegistory):
         if type(force_registory) != ForceRegistory:
             raise "[WARNING][SCENE][INSERT FORCE REGISTORY]: the insert object is not a force_registory!"
-        self.FORCE_REGISTORY = force_registory
+        self.FORCE_REGISTRY = force_registory
     def InsertBroadPhaseQueue(self, broad_phase_queue: BroadPhaseQueue):
         if type(broad_phase_queue) != BroadPhaseQueue:
             raise "[WARNING][SCENE][INSERT BROAD PHASE QUEUE]: The insert object is not a BroadPhaseQueue!"
@@ -67,10 +67,10 @@ class Scene:
             raise "[WARNING][SCENE][INSERT CONTACT SOLVER]: The insert object is not a ContactSolver!"
         self.CONTACT_SOLVER = contact_solver
     
-    def InsertForceRegistory(self, force_registory: ForceRegistory):
+    def InsertForceRegistry(self, force_registory: ForceRegistory):
         if not isinstance(force_registory, ForceRegistory):
             raise TypeError("[WARNING][SCENE][INSERT FORCE REGISTORY]: The insert object is not a ForceRegistory!")
-        self.FORCE_REGISTORY = force_registory
+        self.FORCE_REGISTRY = force_registory
     
     def InsertBroadPhaseQueue(self, broad_phase_queue: BroadPhaseQueue):
         if not isinstance(broad_phase_queue, BroadPhaseQueue):
@@ -101,7 +101,7 @@ class Scene:
         print("This should be exclusively call as the standard run | otherwise, the functions need to be spreaded? out, because that would be more easy to debug")
         if self.HasSetUp == False:
             raise ("[Warning][Scene][Creat_A_Simulation]: Should have setup the simulation before running")
-        self.FORCE_REGISTORY.Execute(dt)
+        self.FORCE_REGISTRY.Execute(dt)
         self.BroadPhase()
         self.NarrowPhase(dt)
         self.Integrate(dt)
@@ -113,7 +113,7 @@ class Scene:
             print("[WARNING][SCENE][SET UP]: Bro, no rigid body is added in the simulation ...")
         if len(self.FORCE_GENERATOR_POOL) == 0:
             print("[WARNING][SCENE][SET UP]: There is no force_generator in the simulation, please watch out!")
-        if self.FORCE_REGISTORY == None:
+        if self.FORCE_REGISTRY == None:
             print("[WARNING][SCENE][SET UP]: Force registory is missed")
         if self.BROAD_PHASE_QUEUE == None:
             print("[WARNING][SCENE][SET UP]: Broad phase queue is not found")
@@ -129,13 +129,13 @@ class Scene:
     def RemoveSpecificBody(self):
         self.body_list
 
-    def SetupForceRegistory(self):
+    def SetupForceRegistry(self):
         for body in self.body_list:
             body: Body = body
             for force_generator in self.FORCE_GENERATOR_POOL:
-                self.FORCE_REGISTORY.Add(body, force_generator)
-    def ForceRegistoryExecute(self, dt: float):
-        self.FORCE_REGISTORY.Execute(dt)
+                self.FORCE_REGISTRY.Add(body, force_generator)
+    def ForceRegistryExecute(self, dt: float):
+        self.FORCE_REGISTRY.Execute(dt)
 
     def BroadPhase(self):
         self.BROAD_PHASE_QUEUE.GeneratingPairs(self.body_list)

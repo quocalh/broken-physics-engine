@@ -76,7 +76,8 @@ class ContactSolver:
         try:
             inspecting_lines.Add(self.object1.position, radius1, True)
             inspecting_lines.Add(self.object2.position, radius2, True)
-        except: pass
+        except: 
+            pass
 
         AngularImpulse = 0
         AngularImpulse1 = 0
@@ -128,9 +129,12 @@ class ContactSolver:
         self.object2.AccumulatingPosition(- iMass2 * MovementPerImass)
         
     def ResolveFriction(self, dt):  
+        """
+        IS BROKEN DEALING WITH POLYGON COLLISION SOLVERS, NOT GONNA FIX IT ANYTIME SOON :SMIRK:
+        """
         iMass1 = self.object1.mass_data.iMass
         iMass2 = self.object2.mass_data.iMass
-        # friction_coef = self.object1.friction_static / 2 + self.object2.friction_static / 2 # suppose to get pythagoreaned | but calc a average instead
+        
         self.restitution = max(self.object1.material.restitution, self.object2.material.restitution)
         
         RelativeVelocity = self.object2.velocity - self.object1.velocity 
@@ -142,7 +146,7 @@ class ContactSolver:
         Tangent /= TangentMagnitude
 
         SeperateVelocity = np.dot(self.contact_normal, RelativeVelocity)
-        # SeperateVelocity = np.dot(RelativeVelocity, Tangent)
+        
         TotalMass = iMass1 + iMass2
         if TotalMass == 0:
             return
@@ -152,79 +156,18 @@ class ContactSolver:
         Impulse = -(1 + self.restitution) * SeperateVelocity
         Impulse /= TotalMass 
         Impulse *= Tangent # Impulse per Imass
-        # inspecting_vectors.Add(Tangent * 2, self.object1.position)
-        # inspecting_vectors.Add(Tangent * 2, self.object2.position)
+        
+        
         FrictionCoefficient = 0.09
         self.object1.AccumulatingVelocity(iMass1 * Impulse * FrictionCoefficient)
         self.object2.AccumulatingVelocity(-iMass2 * Impulse * FrictionCoefficient) 
-        # inspecting_texts.Add(f"{np.linalg.norm(Tangent)}", self.object1.position, True)
-
-
-
-
-
-
-    # sadlkfjal;kdjd;lfkja;dlfjal;fajdf;adjflkdjf;lads
-    #jad;lfjadkfjasl;kdfja;ldkfjkla;dfj;adjf;adwljf;adlsjf;a
-    # kdajsf;lsakjdfl;asdjf;ladskjf;lakdjfl;ajfl;kajflj
-    # ai;dsjfl;asjf;ladsjfsdajfdsajfajf;sajflsfja;
-
-    """
-    def ResolveFriction(self, dt):  
-        if self.impulse == None:
-            return
         
-        iMass1 = self.object1.mass_data.iMass
-        iMass2 = self.object2.mass_data.iMass
-        # friction_coef = self.object1.friction_static / 2 + self.object2.friction_static / 2 # suppose to get pythagoreaned | but calc a average instead        
-        RelativeVelocity = self.object2.velocity - self.object1.velocity # skibidi
-
-        Tangent = RelativeVelocity - (np.dot(self.contact_normal, RelativeVelocity)) * self.contact_normal
-        TangentMagnitude = np.linalg.norm(Tangent)
-        Tangent /= TangentMagnitude
-
-        FrictionImpulse = - np.dot(RelativeVelocity, Tangent)
-        TotalMass = iMass1 + iMass2
-        if TotalMass == 0:
-            return
-        FrictionImpulse /= TotalMass 
-        
-        # convert contact normal into tangent
-        if TangentMagnitude == 0:
-            return
-        ResolveStaticFriction = 0.05 # would fix iti  TODO | FIXME
-        ResolveDynamicFriction = 0.05 # would fix it also
-
-        if abs(FrictionImpulse) < self.impulse * ResolveStaticFriction:
-            FrictionImpulse = FrictionImpulse * Tangent # i think it will stand still
-        else:
-            FrictionImpulse = -self.impulse * Tangent * ResolveDynamicFriction
-
-
-        FrictionImpulse *= Tangent # Impulse per Imass
-
-        self.object1.AccumulatingVelocity(iMass1 * FrictionImpulse)
-        self.object2.AccumulatingVelocity(-iMass2 * FrictionImpulse) 
-        self.impulse = None
-    """
-
-    # adjfaosdjf;dsjf;asdkfja;ldkfjadpdsajkfjad;lfijdl;kfjal;dfjasd
-    # akdhjfashdfkadshfkadjhflkadjf;dsoifjsdlafjladskjfl;adjfl;dasjf
-    # asdkfjasdl;kj;saljfld;kfjsdaapodsfiloadsjfldsakjfl;dajf;ldaijf
-    #aslkdjfl;ajfl;kasdjf;lkadjfldakjsfl;adsjfl;akdjflkadjsf;ladf
-
-
-
-
 
     def ResetParameter(self):
         self.penetration = None
         self.contact_normal = None
         self.object1 = None
         self.object2 = None  
-
-
-
 
 
 """"

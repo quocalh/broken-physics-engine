@@ -29,7 +29,7 @@ SIMULATION = Scene(GRAVITATIONAL_ACCELERATION)
 SIMULATION.AddForceGenerator(GRAVITY_FORCE_GENERATOR)
 SIMULATION.AddForceGenerator(DRAG_FORCE_GENERATOR)
 
-SIMULATION.InsertForceRegistory(FORCE_REGISTORY)
+SIMULATION.InsertForceRegistry(FORCE_REGISTORY)
 SIMULATION.InsertNarrowPhaseQueue(NARROWPHASEQUEUE)
 SIMULATION.InsertBroadPhaseQueue(BROADPHASEQUEUE)
 SIMULATION.InsertContactSolver(CONTACT_SOLVER)
@@ -97,7 +97,7 @@ SIMULATION.AddBody(polygon2)
 
 
 
-SIMULATION.SetupForceRegistory()
+SIMULATION.SetupForceRegistry()
 
 default_velocity = 100
 velocity = default_velocity
@@ -146,10 +146,10 @@ while running:
     
     velocity = default_velocity
 
-    if len(SIMULATION.FORCE_REGISTORY.queue) != len(SIMULATION.FORCE_GENERATOR_POOL) * len(SIMULATION.body_list):
-        SIMULATION.FORCE_REGISTORY.Clear()
-        SIMULATION.SetupForceRegistory()
-    SIMULATION.ForceRegistoryExecute(dt)
+    if len(SIMULATION.FORCE_REGISTRY.queue) != len(SIMULATION.FORCE_GENERATOR_POOL) * len(SIMULATION.body_list):
+        SIMULATION.FORCE_REGISTRY.Clear()
+        SIMULATION.SetupForceRegistry()
+    SIMULATION.ForceRegistryExecute(dt)
 
     for _ in range(3):
         SIMULATION.BroadPhase()

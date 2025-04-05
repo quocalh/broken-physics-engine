@@ -24,7 +24,7 @@ clock = pg.time.Clock()
 DRAG_FORCE_GENERATOR.SetCoefficients(0.01, 0.03)
 GRAVITY_FORCE_GENERATOR.SetGravitationalAcceleration(GRAVITATIONAL_ACCELERATION)
 
-FORCE_REGISTORY = ForceRegistory()
+FORCE_REGISTRY = ForceRegistory()
 BROADPHASEQUEUE = BroadPhaseQueue()
 NARROWPHASEQUEUE = NarrowPhaseQueue()
 CONTACT_SOLVER = ContactSolver()
@@ -34,7 +34,7 @@ SIMULATION = Scene(GRAVITATIONAL_ACCELERATION)
 SIMULATION.AddForceGenerator(GRAVITY_FORCE_GENERATOR)
 SIMULATION.AddForceGenerator(DRAG_FORCE_GENERATOR)
 
-SIMULATION.InsertForceRegistory(FORCE_REGISTORY)
+SIMULATION.InsertForceRegistry(FORCE_REGISTRY)
 SIMULATION.InsertNarrowPhaseQueue(NARROWPHASEQUEUE)
 SIMULATION.InsertBroadPhaseQueue(BROADPHASEQUEUE)
 SIMULATION.InsertContactSolver(CONTACT_SOLVER)
@@ -82,7 +82,7 @@ SIMULATION.AddBody(wheel_2)
 
 # SIMULATION.body_list = [platform, box, wheel, wheel_1, wheel_2]
 
-SIMULATION.SetupForceRegistory()
+SIMULATION.SetupForceRegistry()
 SIMULATION.SetupBugCheck()
 
 default_slowmo_coef = 1
@@ -119,9 +119,9 @@ while running:
     """
     As long as the self.bodylist is not changed (being added or deleted with new ones), the force registor can stay the same
     """
-    if len(SIMULATION.FORCE_REGISTORY.queue) != len(SIMULATION.FORCE_GENERATOR_POOL) * len(SIMULATION.body_list):
-        SIMULATION.FORCE_REGISTORY.Clear()
-        SIMULATION.SetupForceRegistory()
+    if len(SIMULATION.FORCE_REGISTRY.queue) != len(SIMULATION.FORCE_GENERATOR_POOL) * len(SIMULATION.body_list):
+        SIMULATION.FORCE_REGISTRY.Clear()
+        SIMULATION.SetupForceRegistry()
 
     slowmo_toggle = False
     if keys[K_SPACE]:
@@ -133,7 +133,7 @@ while running:
         slowmo_coef = default_slowmo_coef
 
     
-    SIMULATION.ForceRegistoryExecute(dt)
+    SIMULATION.ForceRegistryExecute(dt)
     # FORCE_REGISTORY.Add(box            , GRAVITY_FORCE_GENERATOR)
     # FORCE_REGISTORY.Add(box            , DRAG_FORCE_GENERATOR)
     # FORCE_REGISTORY.Add(wheel          , GRAVITY_FORCE_GENERATOR)
